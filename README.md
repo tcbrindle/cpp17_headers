@@ -12,7 +12,7 @@ backwards-compatible to C++11, except for `variant.hpp` which is C++14 only.
 I am not the original author of any of these headers; my involvement extends to
 putting them together in one place, changing namespaces and adding a little bit
 of preprocessor code to prefer standard library versions when available. All credit
-should go to the  original authors, whose details can be found below.
+should go to the original authors, whose details can be found below.
 
 ## Usage ##
 
@@ -39,7 +39,7 @@ Eventually, and hopefully in the not-too-distant future, all of these headers wi
 be available as part of every standard library implementation. Many of them are
 already available in the `std::experimental` namespace in some compilers. For
 forward compatibility, these headers will try to use standard library versions
-if possible, and only fall back to the included implementations of this fails.
+if possible, and only fall back to the included implementations if this fails.
 
 On compilers which implement `__has_include()` (only GCC and Clang at the time of
 writing), each header `N.hpp` will first look for the standard library header
@@ -82,26 +82,25 @@ describe you, *please* consider using the Boost versions instead.
  * Author: Denilson das Mercês Amorim
  * Repository: https://github.com/thelink2012/any
  * Licence: Boost 
- * Compatibility: C++11
- 
- 
+ * Compatibility: C++11, GCC/Clang/MSVC
+
 ### optional.hpp ###
 
  * Author: Andrzej Krzemieński
  * Repository: https://github.com/akrzemi1/Optional
  * Licence: Boost
- * Compatibility: C++11
- 
- ### string_view.hpp ###
+ * Compatibility: C++11, GCC/Clang/MSVC
+
+### string_view.hpp ###
  
  * Authors: Marshall Clow and Beman Dawes (Boost)
  * Repository: https://github.com/boostorg/utility
  * Licence: Boost
- * Compatibility: C++11
+ * Compatibility: C++11, GCC/Clang/MSCV
  
 ### variant.hpp ###
 
  * Author: Anthony Williams
  * Repository: https://bitbucket.org/anthonyw/variant (Mercurial)
  * Licence: BSD
- * Compatibility: C++14
+ * Compatibility: C++14, GCC/Clang only
