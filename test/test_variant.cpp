@@ -1111,6 +1111,7 @@ void if_emplace_throws_variant_is_valueless(){
     assert(v.valueless_by_exception());
 }
 
+#ifndef __MINGW32__
 void properties(){
     std::cout<<__FUNCTION__<<std::endl;
     static_assert(!std::is_default_constructible<se::variant<>>::value);
@@ -1129,6 +1130,7 @@ void properties(){
     static_assert(!noexcept(se::variant<ThrowingCopy,int>().swap(std::declval<se::variant<ThrowingCopy,int>&>())));
     static_assert(noexcept(se::variant<int,double>().swap(std::declval<se::variant<int,double>&>())));
 }
+#endif
 
 void variant_of_references(){
     std::cout<<__FUNCTION__<<std::endl;
@@ -2005,7 +2007,9 @@ int main(){
     large_noexcept_movable_and_small_throw_movable();
     construct_small_with_large_throwables();
     if_emplace_throws_variant_is_valueless();
+#ifndef __MINGW32__
     properties();
+#endif
     variant_of_references();
     variant_size();
     variant_alternative();
