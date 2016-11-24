@@ -1,5 +1,5 @@
 
-# C++17 Headers for C++11/14 #
+# Collected C++17 Headers for C++11/14 #
 
 This repository features self-contained single-header implementations of some of
 the new facilities which will be added to the standard library in C++17, namely
@@ -45,7 +45,7 @@ On compilers which implement `__has_include()` (only GCC and Clang at the time o
 writing), each header `N.hpp` will first look for the standard library header
 `<N>`; if this is found, the names will be made available in the configured
 namespace via `using` declarations.  If `<N>` cannot be found, it will look for
-`<experimental/N>`, before finally back to the included implementation. So
+`<experimental/N>`, before finally falling back to the included implementation. So
 for example, GCC 6.1 includes an implementation of `std::experimental::any`;
 therefore
 
@@ -60,7 +60,7 @@ to standard library facilities as they are included with compiler releases,
 eventually rendering this repo redundant.
 
 If, for ABI reasons, you'd rather stick with the versions defined in this header
-even if a newer standard library implementation provides a particular header, then
+even if a newer standard library implementation becomes available, then
 define the preprocessor symbol `STX_NO_STD_N`, where `N` is `ANY`, `OPTIONAL` etc
 before including the header. This will short-circuit the `__has_include()` check.
 
