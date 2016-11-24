@@ -1,5 +1,6 @@
 // Very simplist test, could be better.
 
+#define STX_NO_STD_ANY
 #include <stx/any.hpp>
 #include <memory>
 #include <cstdio>

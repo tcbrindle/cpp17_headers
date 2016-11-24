@@ -86,7 +86,22 @@ describe you, *please* consider using the Boost versions instead.
  
  
 ### optional.hpp ###
+
  * Author: Andrzej Krzemieński
  * Repository: https://github.com/akrzemi1/Optional
  * Licence: Boost
  * Compatibility: C++11
+ 
+ ### string_view.hpp ###
+ 
+ * Authors: Marshall Clow and Beman Dawes (Boost)
+ * Repository: https://github.com/boostorg/utility
+ * Licence: Boost
+ * Compatibility: C++11
+ 
+### variant.hpp ###
+
+ * Author: Anthony Williams
+ * Repository: https://bitbucket.org/anthonyw/variant (Mercurial)
+ * Licence: BSD
+ * Compatibility: C++14
