@@ -1379,6 +1379,7 @@ static_assert( tr2::optional<int>{}.value_or(4) == 4, "WTF!" );
 constexpr tr2::optional<Combined> gc0{tr2::in_place};
 static_assert(gc0->n == 6, "WTF!");
 
+#if 0
 // optional refs
 int gi = 0;
 constexpr tr2::optional<int&> gori = gi;
@@ -1389,7 +1390,7 @@ static_assert(!gorn, "WTF");
 static_assert(gori != tr2::nullopt, "WTF");
 static_assert(gorn == tr2::nullopt, "WTF");
 static_assert(&gri == &*gori, "WTF");
-
+#endif
 constexpr int gci = 1;
 constexpr tr2::optional<int const&> gorci = gci;
 constexpr tr2::optional<int const&> gorcn{};
