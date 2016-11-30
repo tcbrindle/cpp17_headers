@@ -55,7 +55,13 @@
             using std::variant_size_v;
             using std::variant_alternative;
             using std::variant_alternative_t;
-
+            using std::in_place_t;
+            using std::in_place;
+            using std::in_place_type_t;
+            using std::in_place_type;
+            using std::in_place_index_t;
+            using std::in_place_index;
+#           define STX_HAVE_IN_PLACE_T
         }
 #       define STX_HAVE_STD_ANY 1
 #    endif // __hasinclude(any)
@@ -83,41 +89,66 @@
 
 namespace STX_NAMESPACE_NAME {
 
-struct __in_place_private {
+#ifndef STX_HAVE_IN_PLACE_T
+struct in_place_t {
+    explicit in_place_t() = default;
+};
+
+constexpr in_place_t in_place{};
+
+template <class T> struct in_place_type_t {
+    explicit in_place_type_t() = default;
+};
+template <class T>
+constexpr in_place_type_t<T> in_place_type{};
+
+template <size_t I> struct in_place_index_t {
+    explicit in_place_index_t() = default;
+};
+template <size_t I>
+constexpr in_place_index_t<I> in_place_index{};
+
+
+#if 0
+struct _in_place_private {
     template <typename>
-    struct __type_holder;
+    struct _type_holder;
 
     template <size_t>
-    struct __value_holder;
+    struct _value_holder;
 };
 
 struct in_place_tag {
     in_place_tag() = delete;
 };
 
-using in_place_t = in_place_tag(&)(__in_place_private&);
+using in_place_t = in_place_tag(&)(_in_place_private&);
 
 template <class _Type>
 using in_place_type_t = in_place_tag(&)(
-        __in_place_private::__type_holder<_Type>&);
+        _in_place_private::_type_holder<_Type>&);
 
 template <size_t _Index>
 using in_place_index_t = in_place_tag(&)(
-        __in_place_private::__value_holder<_Index>&);
+        _in_place_private::_value_holder<_Index>&);
 
-in_place_tag in_place(__in_place_private&);
+in_place_tag in_place(_in_place_private&);
 
 template <class _Type>
-in_place_tag in_place(__in_place_private::__type_holder<_Type>&)
+in_place_tag in_place(_in_place_private::_type_holder<_Type>&)
 {
-    throw __in_place_private();
+    throw _in_place_private();
 }
 
 template <size_t _Index>
-in_place_tag in_place(__in_place_private::__value_holder<_Index>&)
+in_place_tag in_place(_in_place_private::_value_holder<_Index>&)
 {
-    throw __in_place_private();
+    throw _in_place_private();
 }
+#endif
+
+#define STX_HAVE_IN_PLACE_T
+#endif // STX_HAVE_IN_PLACE_T
 
 class bad_variant_access : public std::logic_error {
 public:
@@ -770,38 +801,38 @@ union __variant_data<_Head, _Rest...> {
     template <typename ... _Args>
     constexpr __variant_data(in_place_index_t<0>, _Args&& ... __args)
             :
-            __head(in_place<0>, std::forward<_Args>(__args)...) {}
+            __head(in_place_index<0>, std::forward<_Args>(__args)...) {}
 
     template <size_t _Index, typename ... _Args>
     constexpr __variant_data(in_place_index_t<_Index>, _Args&& ... __args)
             :
-            __rest(in_place<_Index - 1>, std::forward<_Args>(__args)...) {}
+            __rest(in_place_index<_Index - 1>, std::forward<_Args>(__args)...) {}
 
     _Head& __get(in_place_index_t<0>)
     {
-        return __head.__get(in_place<0>);
+        return __head.__get(in_place_index<0>);
     }
 
     constexpr _Head&& __get_rref(in_place_index_t<0>)
     {
-        return __head.__get_rref(in_place<0>);
+        return __head.__get_rref(in_place_index<0>);
     }
 
     constexpr const _Head& __get(in_place_index_t<0>) const
     {
-        return __head.__get(in_place<0>);
+        return __head.__get(in_place_index<0>);
     }
 
     constexpr const _Head&& __get_rref(in_place_index_t<0>) const
     {
-        return __head.__get_rref(in_place<0>);
+        return __head.__get_rref(in_place_index<0>);
     }
 
     template <size_t _Index>
     typename __indexed_type<_Index - 1, _Rest...>::__type& __get(
             in_place_index_t<_Index>)
     {
-        return __rest.__get(in_place<_Index - 1>);
+        return __rest.__get(in_place_index<_Index - 1>);
     }
 
     template <size_t _Index>
@@ -809,7 +840,7 @@ union __variant_data<_Head, _Rest...> {
     __get_rref(
             in_place_index_t<_Index>)
     {
-        return __rest.__get_rref(in_place<_Index - 1>);
+        return __rest.__get_rref(in_place_index<_Index - 1>);
     }
 
     template <size_t _Index>
@@ -817,7 +848,7 @@ union __variant_data<_Head, _Rest...> {
     __get(
             in_place_index_t<_Index>) const
     {
-        return __rest.__get(in_place<_Index - 1>);
+        return __rest.__get(in_place_index<_Index - 1>);
     }
 
     template <size_t _Index>
@@ -825,18 +856,18 @@ union __variant_data<_Head, _Rest...> {
     __get_rref(
             in_place_index_t<_Index>) const
     {
-        return __rest.__get_rref(in_place<_Index - 1>);
+        return __rest.__get_rref(in_place_index<_Index - 1>);
     }
 
     void __destroy(in_place_index_t<0>)
     {
-        __head.__destroy(in_place<0>);
+        __head.__destroy(in_place_index<0>);
     }
 
     template <size_t _Index>
     void __destroy(in_place_index_t<_Index>)
     {
-        __rest.__destroy(in_place<_Index - 1>);
+        __rest.__destroy(in_place_index<_Index - 1>);
     }
 };
 
@@ -1048,7 +1079,7 @@ struct __destroy_op_table<_Variant, __index_sequence<_Indices...>> {
             _Variant* __self)
     {
         if (__self->__index >= 0) {
-            __self->__storage.__destroy(in_place<_Index>);
+            __self->__storage.__destroy(in_place_index<_Index>);
         }
     }
 
@@ -1401,13 +1432,13 @@ struct __backup_storage_ops {
             _Storage* __dest, _Storage& __source)
     {
         new(__dest) _Storage(
-                in_place<_Index>,
-                std::move(__source.__get(in_place<_Index>)));
+                in_place_index<_Index>,
+                std::move(__source.__get(in_place_index<_Index>)));
     }
 
     static void __destroy_func(_Storage* __obj)
     {
-        __obj->__destroy(in_place<_Index>);
+        __obj->__destroy(in_place_index<_Index>);
     };
 };
 
@@ -1728,7 +1759,7 @@ class variant :
     size_t __emplace_construct(_Args&& ... __args)
     {
         new(&__storage) __storage_type(
-                in_place<_Index>, std::forward<_Args>(__args)...);
+                in_place_index<_Index>, std::forward<_Args>(__args)...);
         return _Index;
     }
 
@@ -1804,12 +1835,12 @@ class variant :
     {
         typedef typename __indexed_type<_Index, _Types...>::__type __type;
         __variant_data<__type> __local(
-                in_place<0>, std::forward<_Args>(__args)...);
+                in_place_index<0>, std::forward<_Args>(__args)...);
         __destroy_self();
         __emplace_construct<_Index>(
-                std::move(__local.__get(in_place<0>)));
+                std::move(__local.__get(in_place_index<0>)));
         __index = _Index;
-        __local.__destroy(in_place<0>);
+        __local.__destroy(in_place_index<0>);
     }
 
     template <size_t _Index, typename ... _Args>
@@ -1835,7 +1866,7 @@ public:
     constexpr variant()
     noexcept(noexcept(typename __indexed_type<0, _Types...>::__type()))
             :
-            __storage(in_place<0>),
+            __storage(in_place_index<0>),
             __index(0) {}
 
     constexpr variant(
@@ -1869,7 +1900,7 @@ public:
     explicit constexpr variant(in_place_type_t<_Type>, _Args&& ... __args)
             :
             __storage(
-                    in_place<__type_index<_Type, _Types...>::__value>,
+                    in_place_index<__type_index<_Type, _Types...>::__value>,
                     std::forward<_Args>(__args)...),
             __index(__type_index<_Type, _Types...>::__value)
     {
@@ -1880,7 +1911,7 @@ public:
     template <size_t _Index, typename ... _Args>
     explicit constexpr variant(in_place_index_t<_Index>, _Args&& ... __args)
             :
-            __storage(in_place<_Index>, std::forward<_Args>(__args)...),
+            __storage(in_place_index<_Index>, std::forward<_Args>(__args)...),
             __index(_Index)
     {
         static_assert(
@@ -1892,7 +1923,7 @@ public:
     constexpr variant(_Type&& __x)
             :
             __storage(
-                    in_place<
+                    in_place_index<
                             __type_index_to_construct<_Type, _Types...>::__value>,
                     std::forward<_Type>(__x)),
             __index(__type_index_to_construct<_Type, _Types...>::__value) {}
@@ -1906,7 +1937,7 @@ public:
     constexpr variant(std::initializer_list<_Type> __x)
             :
             __storage(
-                    in_place<
+                    in_place_index<
                             __type_index_to_construct<std::initializer_list<_Type>, _Types...>::__value>,
                     __x),
             __index(__type_index_to_construct<std::initializer_list<_Type>, _Types...>::__value) {}
@@ -1914,7 +1945,7 @@ public:
     template <typename _Alloc>
     variant(std::allocator_arg_t, _Alloc const& __alloc)
             :
-            __storage(in_place<0>, std::allocator_arg_t(), __alloc),
+            __storage(in_place_index<0>, std::allocator_arg_t(), __alloc),
             __index(0) {}
 
     template <typename _Alloc, size_t _Index, typename ... _Args>
@@ -1922,7 +1953,7 @@ public:
             std::allocator_arg_t, _Alloc const& __alloc,
             in_place_index_t<_Index>, _Args&& ... __args)
             :
-            __storage(in_place<_Index>, std::allocator_arg_t(), __alloc,
+            __storage(in_place_index<_Index>, std::allocator_arg_t(), __alloc,
                       std::forward<_Args>(__args)...),
             __index(_Index)
     {
@@ -1945,7 +1976,7 @@ public:
             in_place_type_t<_Type>, _Args&& ... __args)
             :
             __storage(
-                    in_place<__type_index<_Type, _Types...>::__value>,
+                    in_place_index<__type_index<_Type, _Types...>::__value>,
                     std::allocator_arg_t(), __alloc,
                     std::forward<_Args>(__args)...),
             __index(__type_index<_Type, _Types...>::__value)
@@ -2154,22 +2185,22 @@ struct __variant_accessor {
 
     static constexpr __type& get(variant<_Types...>& __v)
     {
-        return __v.__storage.__get(in_place<_Index>);
+        return __v.__storage.__get(in_place_index<_Index>);
     }
 
     static constexpr __type const& get(variant<_Types...> const& __v)
     {
-        return __v.__storage.__get(in_place<_Index>);
+        return __v.__storage.__get(in_place_index<_Index>);
     }
 
     static constexpr __type&& get(variant<_Types...>&& __v)
     {
-        return __v.__storage.__get_rref(in_place<_Index>);
+        return __v.__storage.__get_rref(in_place_index<_Index>);
     }
 
     static constexpr const __type&& get(variant<_Types...> const&& __v)
     {
-        return __v.__storage.__get_rref(in_place<_Index>);
+        return __v.__storage.__get_rref(in_place_index<_Index>);
     }
 };
 
