@@ -43,7 +43,6 @@
 
 #if defined(__has_include) && !defined(STX_NO_STD_VARIANT)
 #    if __has_include(<variant>)
-#       include <any>
         namespace STX_NAMESPACE_NAME {
             using std::variant;
             using std::visit;
@@ -61,14 +60,14 @@
             using std::in_place_type;
             using std::in_place_index_t;
             using std::in_place_index;
-#           define STX_HAVE_IN_PLACE_T
         }
-#       define STX_HAVE_STD_ANY 1
+#       define STX_HAVE_IN_PLACE_T 1
+#       define STX_HAVE_STD_VARIANT 1
 #    endif // __hasinclude(any)
 #endif // defined(__hasinclude)
 
 
-#ifndef STX_HAVE_STD_ANY
+#ifndef STX_HAVE_STD_VARIANT
 
 #include <stddef.h>
 #include <stdexcept>
