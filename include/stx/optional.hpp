@@ -21,8 +21,10 @@
             using std::optional;
             using std::bad_optional_access;
             using std::nullopt_t;
-            using std::in_place_t;
+            using std::nullopt;
             using std::make_optional;
+            using std::in_place_t;
+            using std::in_place
         }
 #       define STX_HAVE_STD_OPTIONAL 1
 #   elif __has_include(<experimental/optional>)
@@ -31,8 +33,10 @@
             using std::experimental::optional;
             using std::experimental::bad_optional_access;
             using std::experimental::nullopt_t;
-            using std::experimental::in_place_t;
+            using std::experimental::nullopt;
             using std::experimental::make_optional;
+            using std::experimental::in_place_t;
+            using std::experimental::in_place;
         }
 #       define STX_HAVE_STD_OPTIONAL 1
 #    endif // __hasinclude(optional)
