@@ -19,6 +19,11 @@
 #define STX_NO_STD_OPTIONAL
 #endif
 
+// libstdc++ and libc++'s std::experimental::optional only work in C++14 mode
+#if defined(__GNUC__) && (__cplusplus < 201402)
+#define STX_NO_STD_OPTIONAL
+#endif
+
 #if defined(__has_include) && !defined(STX_NO_STD_OPTIONAL)
 #    if __has_include(<optional>)
 #       include <optional>
