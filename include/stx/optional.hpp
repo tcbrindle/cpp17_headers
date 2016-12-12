@@ -14,6 +14,11 @@
 #define STX_NAMESPACE_NAME stx
 #endif
 
+// AppleClang < 8.0 has broken std::experimental::optional implementation
+#if defined(__apple_build_version__) && (__apple_build_version__ < 800000)
+#define STX_NO_STD_OPTIONAL
+#endif
+
 #if defined(__has_include) && !defined(STX_NO_STD_OPTIONAL)
 #    if __has_include(<optional>)
 #       include <optional>
