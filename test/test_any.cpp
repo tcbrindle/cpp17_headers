@@ -1,6 +1,13 @@
 // Very simplist test, could be better.
 
-#define STX_NO_STD_ANY
+/* This test is taken from the original sources of stx::any, and tests that
+ * implementation only. It will very likely not work for a different
+ * any implementation, including std::[experimental::]any.
+ *
+ * We use it to ensure that we haven't made any changes from upstream any
+ * that have caused breakage.
+ */
+
 #include <stx/any.hpp>
 #include <memory>
 #include <cstdio>

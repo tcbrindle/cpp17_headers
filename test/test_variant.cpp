@@ -1,5 +1,4 @@
 
-#define STX_NO_STD_VARIANT
 #include <stx/variant.hpp>
 #include <assert.h>
 #include <string>

@@ -7,7 +7,15 @@
 // The idea and interface is based on Boost.Optional library
 // authored by Fernando Luis Cacciola Carballal
 
-# define STX_NO_STD_OPTIONAL
+/* This file is taken from the upstream stx::optional implementation. It makes
+ * assumptions about the implementation and will not work with std::optional
+ * or std::experimental::optional from standard libraries. That is, you must
+ * define STX_NO_STD_OPTIONAL before compiling this file.
+ *
+ * It is included here to ensure that we don't make any changes from upstream
+ * which cause breakage.
+ */
+
 # include <stx/optional.hpp>
 # include <vector>
 # include <iostream>

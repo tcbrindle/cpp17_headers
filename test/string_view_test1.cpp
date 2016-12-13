@@ -12,7 +12,6 @@
 #include <algorithm>
 #include <string>
 
-#define STX_NO_STD_STRING_VIEW
 #include <stx/string_view.hpp>
 
 
