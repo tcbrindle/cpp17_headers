@@ -14,13 +14,17 @@
 #define STX_NAMESPACE_NAME stx
 #endif
 
-// AppleClang < 8.0 has broken std::experimental::optional implementation
-#if defined(__apple_build_version__) && (__apple_build_version__ < 800000)
+// libc++ on Apple has a broken std::experimental::optional version
+#if !defined(STX_NO_STD_OPTIONAL) && defined(__APPLE__)
+// This header is empty on C++ but defines _LIBCPP_VERSION for us
+#include <ciso646>
+#if defined(_LIBCPP_VERSION) && (_LIBCPP_VERSION <= 3800)
 #define STX_NO_STD_OPTIONAL
-#endif
+#endif // _LIBCPP_VERSION
+#endif // __APPLE__
 
 // libstdc++ and libc++'s std::experimental::optional only work in C++14 mode
-#if defined(__GNUC__) && (__cplusplus < 201402)
+#if !defined(STX_NO_STD_OPTIONAL) && defined(__GNUC__) && (__cplusplus < 201402)
 #define STX_NO_STD_OPTIONAL
 #endif
 
