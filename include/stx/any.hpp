@@ -20,6 +20,11 @@
 #define STX_NAMESPACE_NAME stx
 #endif
 
+// libstdc++ std::experimental::any only works in C++14 mode
+#if !defined(STX_NO_STD_ANY) && defined(__GNUC__) && (__cplusplus < 201402)
+#define STX_NO_STD_ANY
+#endif
+
 #if defined(__has_include) && !defined(STX_NO_STD_ANY)
 #    if __has_include(<any>)
 #       include <any>
