@@ -21,6 +21,14 @@
 #define STX_NAMESPACE_NAME stx
 #endif
 
+// libstdc++'s std::experimental::string_view requries C++14
+#if !defined(STX_NO_STD_STRING_VIEW) && (__cplusplus < 201402)
+#include <cstddef>
+#if defined(__GLIBCXX__)
+#define STX_NO_STD_STRING_VIEW
+#endif
+#endif
+
 #if defined(__has_include) && !defined(STX_NO_STD_STRING_VIEW)
 #if __has_include(<string_view>)
         #include <string_view>
