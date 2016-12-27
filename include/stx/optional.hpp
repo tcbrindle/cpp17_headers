@@ -570,6 +570,7 @@ public:
   // 20.5.4.5, Observers
   
   explicit constexpr operator bool() const noexcept { return initialized(); }
+  constexpr bool has_value() const noexcept { return initialized(); }
   
   constexpr T const* operator ->() const {
     return TR2_OPTIONAL_ASSERTED_EXPRESSION(initialized(), dataptr());
@@ -763,6 +764,10 @@ public:
   }
   
   explicit constexpr operator bool() const noexcept {
+    return ref != nullptr;
+  }
+ 
+  constexpr bool has_value() const noexcept {
     return ref != nullptr;
   }
   
