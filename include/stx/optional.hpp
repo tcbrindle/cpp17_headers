@@ -672,6 +672,8 @@ public:
 
 # endif
 
+  // 20.6.3.6, modifiers
+  void reset() noexcept { clear(); }
 };
 
 
@@ -776,6 +778,9 @@ public:
   {
     return *this ? **this : detail_::convert<typename std::decay<T>::type>(constexpr_forward<V>(v));
   }
+
+  // x.x.x.x, modifiers
+  void reset() noexcept { ref = nullptr; }
 };
 
 
