@@ -26,7 +26,7 @@
 #endif
 
 #if defined(__has_include) && !defined(STX_NO_STD_ANY)
-#    if __has_include(<any>)
+#    if __has_include(<any>) && (__cplusplus > 201402)
 #       include <any>
         namespace STX_NAMESPACE_NAME {
             using std::any;

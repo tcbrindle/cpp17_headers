@@ -42,7 +42,7 @@
 
 
 #if defined(__has_include) && !defined(STX_NO_STD_VARIANT)
-#    if __has_include(<variant>)
+#    if __has_include(<variant>) && (__cplusplus > 201402)
         namespace STX_NAMESPACE_NAME {
             using std::variant;
             using std::visit;

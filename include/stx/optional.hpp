@@ -29,7 +29,7 @@
 #endif
 
 #if defined(__has_include) && !defined(STX_NO_STD_OPTIONAL)
-#    if __has_include(<optional>)
+#    if __has_include(<optional>) && (__cplusplus > 201402)
 #       include <optional>
         namespace STX_NAMESPACE_NAME {
             using std::optional;
