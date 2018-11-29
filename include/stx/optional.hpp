@@ -37,8 +37,11 @@
             using std::nullopt_t;
             using std::nullopt;
             using std::make_optional;
+#       ifndef STX_HAVE_IN_PLACE_T
             using std::in_place_t;
             using std::in_place;
+#       define STX_HAVE_IN_PLACE_T 1
+#       endif // STX_HAVE_IN_PLACE_T
         }
 #       define STX_HAVE_STD_OPTIONAL 1
 #   elif __has_include(<experimental/optional>)
@@ -49,8 +52,11 @@
             using std::experimental::nullopt_t;
             using std::experimental::nullopt;
             using std::experimental::make_optional;
+#       ifndef STX_HAVE_IN_PLACE_T
             using std::experimental::in_place_t;
             using std::experimental::in_place;
+#       define STX_HAVE_IN_PLACE_T 1
+#       endif // STX_HAVE_IN_PLACE_T
         }
 #       define STX_HAVE_STD_OPTIONAL 1
 #    endif // __hasinclude(optional)
@@ -298,24 +304,6 @@ struct in_place_t {
 };
 
 constexpr in_place_t in_place{};
-
-template <class T> struct in_place_type_t {
-    explicit in_place_type_t() = default;
-};
-
-
-template <size_t I> struct in_place_index_t {
-    explicit in_place_index_t() = default;
-};
-
-
-#if __cpp_variable_templates >= 201304
-template <class T>
-constexpr in_place_type_t<T> in_place_type{};
-template <size_t I>
-constexpr in_place_index_t<I> in_place_index{};
-#endif // __cpp_variable_templates
-
 
 #define STX_HAVE_IN_PLACE_T
 #endif // STX_HAVE_IN_PLACE_T
