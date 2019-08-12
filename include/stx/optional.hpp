@@ -309,7 +309,7 @@ template <size_t I> struct in_place_index_t {
 };
 
 
-#if __cpp_variable_templates >= 201304
+#if defined(__cpp_variable_templates) && __cpp_variable_templates >= 201304
 template <class T>
 constexpr in_place_type_t<T> in_place_type{};
 template <size_t I>
