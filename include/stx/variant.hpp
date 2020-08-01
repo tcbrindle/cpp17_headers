@@ -57,7 +57,7 @@
 #           ifndef STX_HAVE_IN_PLACE_T
             using std::in_place_t;
             using std::in_place;
-#           define STX_IN_PLACE_T 1
+#           define STX_HAVE_IN_PLACE_T 1
 #           endif
             using std::in_place_type_t;
             using std::in_place_type;

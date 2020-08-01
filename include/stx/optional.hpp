@@ -37,8 +37,11 @@
             using std::nullopt_t;
             using std::nullopt;
             using std::make_optional;
+#           ifndef STX_HAVE_IN_PLACE_T
             using std::in_place_t;
             using std::in_place;
+#           define STX_HAVE_IN_PLACE_T 1
+#           endif
         }
 #       define STX_HAVE_STD_OPTIONAL 1
 #   elif __has_include(<experimental/optional>)
@@ -49,8 +52,11 @@
             using std::experimental::nullopt_t;
             using std::experimental::nullopt;
             using std::experimental::make_optional;
+#           ifndef STX_HAVE_IN_PLACE_T
             using std::experimental::in_place_t;
             using std::experimental::in_place;
+#           define STX_HAVE_IN_PLACE_T 1
+#           endif
         }
 #       define STX_HAVE_STD_OPTIONAL 1
 #    endif // __hasinclude(optional)
